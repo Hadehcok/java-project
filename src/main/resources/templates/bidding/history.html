@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf-extras/layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section layout:fragment="body">
+    <div class="container mt-5">
+        <h1 class="mb-4">Bidding History</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>User Name</th>
+                    <th>Bidding Price</th>
+                    <th>Date</th>
+                    <th>Link</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bidding : ${biddings}">
+                    <td th:text="${bidding.car.name}"></td>
+                    <td th:text="${bidding.user.username}"></td>
+                    <td th:text="${bidding.getBiddingPrice()}"></td>
+                    <td th:text="${#dates.format(bidding.timestamp, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    <td><a th:href="@{/carDetail/{carId}(carId=${bidding.car.id})}" class="btn btn-primary">See Car's Detail</a></td>
+                    <td th:if="${bidding.accepted == false}">
+                        <form action="/acceptBidding" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <input type="hidden" name="biddingId" th:value="${bidding.id}" />
+                            <button type="submit" class="btn btn-success">Accept Bidding</button>
+                        </form>
+                    </td>
+                    <td th:if="${bidding.accepted == true}">
+                        <span class="badge bg-secondary"  >Accepted</span>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf-extras-layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <section layout:decorator="../index.html" layout:fragment="body">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 mt-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title text-center">Edit Car</h3>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/editCar/{carId}(carId=${car.id})}" th:object="${car}" method="post" enctype="multipart/form-data">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <input type="hidden" th:field="*{id}" />
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name" th:field="*{name}" required/>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description:</label>
+                                    <input type="text" class="form-control" id="description" name="description" th:field="*{description}" required/>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="model" class="form-label">Model:</label>
+                                    <input type="text" class="form-control" id="model" name="name" th:field="*{model}" />
+                                    <p class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Price:</label>
+                                    <input type="text" class="form-control" id="price" name="name" th:field="*{price}" required/>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status:</label>
+                                    <select class="form-select" id="status" name="status" th:field="*{status}" required>
+                                        <option value="active">Active</option>
+                                        <option value="deactive">Deactive</option>
+                                    </select>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="year" class="form-label">Year</label>
+                                    <select class="form-control" id="year" name="year" th:field="*{year}" required>
+                                        <!-- Year option from javascript -->
+                                    </select>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Image:</label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*" th:field="*{image}" >
+                                    <p class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></p>
+                                    <img class="img-fluid rounded-3 mt-3" th:src="@{'/images/'+ *{image}}" alt="..." />
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

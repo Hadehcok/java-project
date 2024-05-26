@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf-extras-layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section layout:decorator="../index.html" layout:fragment="body">
+
+    <!-- Car Details Section -->
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Car Details</h3>
+                </div>
+                <div class="card-body">
+
+                    <p th:if="${param.bidding}" class="alert alert-success">Success add the bid</p>
+                    <p th:if="${param.book}" class="alert alert-success">Success book the appointment</p>
+                    <!-- Car Details Form -->
+                    <form th:object="${car}" method="post" >
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="mb-3 justify-content-center">
+                            <img class="img-fluid rounded-3 mt-3" th:src="@{'/images/'+ *{image}}" alt="..." />
+                        </div>
+
+                        <!-- Name -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" th:field="*{name}" readonly/>
+                        </div>
+
+                        <!-- Model -->
+                        <div class="mb-3">
+                            <label for="model" class="form-label">Model:</label>
+                            <input type="text" class="form-control" id="model" name="model" th:field="*{model}" readonly/>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description" th:field="*{description}" rows="3" readonly></textarea>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price" th:field="*{price}" readonly/>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status:</label>
+                            <input type="text" class="form-control" id="status" name="status" th:field="*{status}" readonly/>
+                        </div>
+
+                        <!-- Year -->
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Year:</label>
+                            <input type="number" class="form-control" id="year" name="year" th:field="*{year}" readonly/>
+                        </div>
+
+                        <div class="text-center" th:if="${user.id} != ${car.createdBy.id}">
+                            <a th:href="@{/addBidding/{carId}(carId=${id})}" class="btn btn-primary">Bid the Car</a>
+                            <a th:href="@{/bookAppointment/{carId}(carId=${id})}" class="btn btn-primary">Book Test Drive</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+</body>
+</html>

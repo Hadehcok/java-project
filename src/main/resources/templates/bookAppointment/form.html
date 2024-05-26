@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf-extras-layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section layout:decorator="../index.html" layout:fragment="body">
+    <div class="container mt-5">
+        <!-- Bidding Form Section -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title text-center">Place Bid</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Bidding Form -->
+                        <form th:action="@{/bookAppointment/{carId}(carId=${carId})}" method="post" th:object="${appointmentDto}">
+                            <!-- CSRF Token -->
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                            <!-- Bidding Price -->
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date:</label>
+                                <input type="date" class="form-control" id="date" name="date"
+                                       th:field="*{appointmentDateTime}" required/>
+                                <p th:if="${#fields.hasErrors('appointmentDateTime')}" class="text-danger"
+                                   th:errors="*{appointmentDateTime}"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Your Message:</label>
+                                <textarea class="form-control" id="message" name="message" rows="5"
+                                          th:field="*{message}" required></textarea>
+                                <p th:if="${#fields.hasErrors('message')}" class="text-danger"
+                                   th:errors="*{message}"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address:</label>
+                                <textarea class="form-control" id="address" name="address" rows="5"
+                                          th:field="*{address}" required></textarea>
+                                <p th:if="${#fields.hasErrors('address')}" class="text-danger"
+                                   th:errors="*{address}"></p>
+                            </div>
+
+                            <!-- Hidden Field for Accepted -->
+                            <input type="hidden" name="status" th:value="false"/>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Book Appointment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

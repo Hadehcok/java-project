@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf-extras-layout"
+      layout:decorate="~{index}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <section layout:decorator="../index.html" layout:fragment="body">
+        <div class="container mt-5">
+            <h1 class="mb-4">User List</h1>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.address}"></td>
+                        <td>
+                            <span class="badge bg-secondary" th:each="role : ${user.roles}" th:text="${role.name}">
+                                <span  class="badge bg-secondary" th:if="${!#strings.isEmpty(role.name)}">, </span>
+                            </span>
+                        </td>
+                        <td th:if="${#lists.contains(user.roles.![name], 'ROLE_USER')}">
+                            <form action="/setAsAdmin" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <input type="hidden" name="userId" th:value="${user.id}" />
+                                <button type="submit" class="btn btn-primary">Set as Admin</button>
+                            </form>
+                        </td>
+<!--                        <td th:if="${#lists.contains(user.roles.![name], 'ROLE_ADMIN')}">-->
+<!--                            <form th:action="@{/setAsUser}" method="post">-->
+<!--                                <input type="hidden" name="userId" th:value="${user.id}" />-->
+<!--                                <button type="submit" class="btn btn-primary">Set as User</button>-->
+<!--                            </form>-->
+<!--                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

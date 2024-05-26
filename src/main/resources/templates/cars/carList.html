@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf-extras-layout"
+      layout:decorate="~{index}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section layout:decorator="../index.html" layout:fragment="body">
+    <div class="container mt-3">
+
+        <div class="search-container">
+            <h1 class="text-center mb-4">Search for a Car</h1>
+            <div th:if="${param.fail}">
+                <div class="alert alert-danger" role="alert">
+                    Search failed. Please try again.
+                </div>
+            </div>
+            <form th:action="@{/search}" method="get" class="row">
+                <div class="col-md-8 mb-3">
+                    <input type="text" class="form-control" id="makeModel" name="makeModel" placeholder="Search car by make or model">
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <select class="form-control" id="year" name="year">
+                        <option value="">Filter by Year</option>
+                        <!-- Opsi tahun akan diisi melalui JavaScript -->
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <select class="form-control" id="price" name="price">
+                        <option value="">Filter by Price</option>
+                        <option value="1000-2000">$1000 - $2000</option>
+                        <option value="2000-3000">$2000 - $3000</option>
+                        <option value="3000-4000">$3000 - $4000</option>
+                        <option value="4000-5000">$4000 - $5000</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row justify-content-center">
+        <div th:each="car :${cars}" class="col-lg-4 mb-4">
+            <div class="card" >
+                    <p class="card-text ms-3 mt-1" th:text="${car.createdBy.username}"></p>
+                    <img class="card-img-top"  th:src="@{'/images/'+ ${car.image}}" style="height: 350px !important;" alt="Car image">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${car.name}"></h5>
+                        <p class="card-text" th:text="${car.model}"></p>
+                        <h5 class="card-text" th:text="'$' + ${car.price}"></h5>
+                        <p class="card-text"><small class="text-muted" th:text="${car.year}"></small></p>
+                        <div >
+                            <a th:href="@{/carDetail/{carId}(carId=${car.id})}" class="btn btn-primary me-2">Detail</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
